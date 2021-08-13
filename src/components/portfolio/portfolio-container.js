@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-
+import axios from 'axios';
 
 import PortfolioItem from "./portfolio-item";
 export default class PortfolioContainer extends Component{
@@ -9,16 +9,28 @@ export default class PortfolioContainer extends Component{
         this.state = {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
-            data: [
-            {title:"Quip", category: 'eComerce', slug: "quip"},
-            {title:"Stingray", category: 'Calls', slug: "stingray"}, 
-            {title:"Startek", category: 'Calls', slug: "startek"}
-        ]
+            /* ---aqui creamos "data"--- */
+            data: []
         }
         //cada vez que hay un click listener, event listener o algo asi, hay que hacer esta sintaxis para llamar this.
         /* this.handlePageTitleUpdate = this.handlePageTitleUpdate.bind(this); */
         
         this.handleFliter = this.handleFliter.bind(this);
+    }
+    /* ---Aqui pedimos la info que la meta a "data"--- */
+    getPortfolioItems(){//los arrow functions son indispensables aqui
+    axios.get('https://yanfer.devcamp.space/portfolio/portfolio_items')
+    .then(response => {
+    // handle success
+        /* console.log("response data",response); */
+        this.setState({
+            data: response.data.portfolio_items
+        })
+    })
+    .catch(error => {
+    // handle error
+        console.log(error);
+        })
     }
     //State
     //Lifecycle hooks
@@ -26,7 +38,8 @@ export default class PortfolioContainer extends Component{
     
     portfolioItems(){
         return this.state.data.map(item =>{
-            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
+            /* ---Aqui que nos impriman la data--- */
+            return <PortfolioItem key={item.id} title={item.name} url={item.url} slug={item.id}/>;
         })
     }
 
@@ -44,12 +57,15 @@ export default class PortfolioContainer extends Component{
             })
         })
     }
-
+    componentDidMount(){
+        this.getPortfolioItems();
+    }
     render(){
         // short circuit por si no carga el contenido todavia
         if (this.state.isLoading){
             return <div>Loading...</div>
         }
+        
         return(
             <div>
                 <button onClick={() => this.handleFliter('eComerce')}>eComerce</button>

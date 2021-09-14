@@ -15,7 +15,7 @@ export default class PortfolioContainer extends Component{
         //cada vez que hay un click listener, event listener o algo asi, hay que hacer esta sintaxis para llamar this.
         /* this.handlePageTitleUpdate = this.handlePageTitleUpdate.bind(this); */
         
-        this.handleFliter = this.handleFliter.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
     }
     /* ---Aqui pedimos la info que la meta a "data"--- */
     getPortfolioItems(){//los arrow functions son indispensables aqui
@@ -25,22 +25,23 @@ export default class PortfolioContainer extends Component{
         /* console.log("response data",response); */
         this.setState({
             data: response.data.portfolio_items
-        })
+        });
     })
     .catch(error => {
     // handle error
         console.log(error);
-        })
+        });
     }
     //State
     //Lifecycle hooks
     //Estas funciones poderosas de arriba solo funcionan con componentes basados en clases(como este componente) no en funciones (como portofolio-item)
     
     portfolioItems(){
+        
+        /* ---Aqui que nos impriman la data--- */
         return this.state.data.map(item =>{
-            /* ---Aqui que nos impriman la data--- */
-            return <PortfolioItem key={item.id} title={item.name} url={item.url} slug={item.id}/>;
-        })
+            return <PortfolioItem key={item.id} item={item}/>;
+        });
     }
 
     /* handlePageTitleUpdate(){
@@ -50,12 +51,12 @@ export default class PortfolioContainer extends Component{
     } */
 
     //cada vez que hagamos un click handler siempre hay que poner "handle" al principio, es una buena practica
-    handleFliter(filter){
+    handleFilter(filter){
         this.setState({
             data: this.state.data.filter(item =>{
-                return item.category === filter
+                return item.category === filter;
             })
-        })
+        });
     }
     componentDidMount(){
         this.getPortfolioItems();
@@ -63,20 +64,17 @@ export default class PortfolioContainer extends Component{
     render(){
         // short circuit por si no carga el contenido todavia
         if (this.state.isLoading){
-            return <div>Loading...</div>
+            return <div>Loading...</div>;
         }
         
         return(
-            <div>
-                <button onClick={() => this.handleFliter('eComerce')}>eComerce</button>
-                <button onClick={() => this.handleFliter('Calls')}>Calls</button>
+                <div className="portfolio-items-wrapper">
+                    <button className="btn" onClick={() => this.handleFilter('Cars')}>Cars</button>
+                    <button className="btn" onClick={() => this.handleFilter('technology')}>Technology</button>
+                    <button className="btn" onClick={() => this.handleFilter('social_media')}>Social Media</button>
 
-                <h2>{this.state.pageTitle}</h2>
-                {this.portfolioItems()}
-
-                {/* <hr></hr>
-                <button onClick={this.handlePageTitleUpdate}>Change Title</button> */}
-            </div>
-        )
+                    {this.portfolioItems()}
+                </div>
+        );
     }
 }

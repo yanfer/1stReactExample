@@ -1,27 +1,42 @@
-import React, { Component } from 'react';
-import loginImg from '../../../static/assets/images/auth/login.jpg'; 
-import Login from '../auth/login';
+import React, { Component } from "react";
+import Login from "../auth/login";
+import loginImg from "../../../static/assets/images/auth/login.jpg";
 
 export default class Auth extends Component {
-    constructor(){ 
-        super();
-    }
+  constructor(props) {
+    super(props);
 
-    render() {
-        return (
-            <div  className="auth-page-wrapper">
-                {/* cuando sean cosas como poner imagenes, no es necesario poner un div de cierre, cerrando el mismo div de entrada es suficiente */}
-                <div className="left-column" 
-                style={{
-                    backgroundImage: `url(${loginImg})`
-                }}
-                />
-                    
+    this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+    this.handleUnsuccessfulAuth = this.handleUnsuccessfulAuth.bind(this);
+  }
 
-                <div className="right-column">
-                    <Login/>
-                </div>
-            </div>
-        );
-    }
+  handleSuccessfulAuth() {
+    this.props.handleSuccessfulLogin();
+    this.props.history.push("/");
+  }
+
+  handleUnsuccessfulAuth() {
+    this.props.handleUnsuccessfulLogin();
+  }
+
+  render() {
+    return (
+      <div className="auth-page-wrapper">
+          {/* cuando sean cosas como poner imagenes, no es necesario poner un div de cierre, cerrando el mismo div de entrada es suficiente */}
+        <div
+          className="left-column"
+          style={{
+            backgroundImage: `url(${loginImg})`
+          }}
+        />
+
+        <div className="right-column">
+          <Login
+            handleSuccessfulAuth={this.handleSuccessfulAuth}
+            handleUnsuccessfulAuth={this.handleUnsuccessfulAuth}
+          />
+        </div>
+      </div>
+    );
+  }
 }

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
-
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";   
+import { faTrash, faSignOutAlt, faPenToSquare, faCircleNotch} from "@fortawesome/free-solid-svg-icons";
+import BlogDetail from './pages/blog-detail';
 import NavigationContainer from './navigation/navigation-container';
 import Home from './pages/home';
 import About from './pages/about';
@@ -11,6 +14,11 @@ import PortfolioManager from "./pages/portfolio-manager"
 import PortfolioDetail from './portfolio/portfolio-detail';
 import Auth from './pages/auth';
 import NoMatch from './pages/no-match';
+
+
+/* para llamar iconos de Fontawesome se usan mayusculas en vez de guiones "faSignOutAlt"  */
+/* para agregarlos donde los pondremos se pone como  aparece en Fontawesome sin fa "sign-out-alt"  */
+library.add(faTrash, faSignOutAlt, faPenToSquare, faCircleNotch);
 
 export default class App extends Component {
   constructor(props){
@@ -107,6 +115,7 @@ export default class App extends Component {
             <Route path="/about-me" component= {About}></Route>
             <Route path="/contact" component= {Contact}></Route>
             <Route path="/blog" component= {Blog}></Route>
+            <Route path="/b/:slug" component= {BlogDetail}></Route>
             {this.state.loggedInStatus === "LOGGED_IN" ? this.authorizedPages(): null}
             <Route exact path="/portfolio/:slug" component= {PortfolioDetail}></Route>
             <Route component={NoMatch}></Route>

@@ -98,7 +98,7 @@ export default class App extends Component {
           handleSuccessfulLogout={this.handleSuccessfulLogout}/>
           
           <Switch>
-            <Route exact path="/" component= {Home}></Route>
+            <Route exact path="/" component= {Home}/>
             
             <Route 
             path="/auth" 
@@ -110,22 +110,27 @@ export default class App extends Component {
               handleUnSuccessfulLogin={this.handleUnsuccessfulLogin}
               />
             )}
-            ></Route>
+            />
 
-            <Route path="/about-me" component= {About}></Route>
-            <Route path="/contact" component= {Contact}></Route>
+            <Route path="/about-me" component= {About}/>
+            <Route path="/contact" component= {Contact}/>
 
             <Route path="/blog" 
             render={props => (
               /* esto hace posible que Blog obtenga todas las props dentro, no llas estamos sobreescribiendo solo agregando las nuestras personalizadas  */
               <Blog{...props} loggedInStatus={this.state.loggedInStatus}/>
             )}
-            ></Route>
+            />
 
-            <Route path="/b/:slug" component= {BlogDetail}></Route>
+            <Route path="/b/:slug"
+              render={props =>(
+                <BlogDetail {...props} loggedInStatus={this.state.loggedInStatus} />
+              )}
+            />
+
             {this.state.loggedInStatus === "LOGGED_IN" ? this.authorizedPages(): null}
-            <Route exact path="/portfolio/:slug" component= {PortfolioDetail}></Route>
-            <Route component={NoMatch}></Route>
+            <Route exact path="/portfolio/:slug" component= {PortfolioDetail}/>
+            <Route component={NoMatch}/>
           </Switch>
 
           </div>

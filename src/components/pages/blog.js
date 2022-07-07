@@ -25,6 +25,22 @@ export default class Blog extends Component {
     this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleSuccessfulNewBlogSubmission = this.handleSuccessfulNewBlogSubmission.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+  }
+
+  handleDeleteClick(blog){
+    axios.delete(`https://api.devcamp.space/portfolio/portfolio_blogs/${blog.id}`, 
+    {withCredentials: true}).then(response =>{
+      this.setState({
+        blogItems: this.state.blogItems.filter(blogItem =>{
+          return blog.id != blogItem.id;
+        })
+      });
+      /* esto no es realmente necesario porque va a estar vacia */
+      return response.data;
+    }).catch(error =>{
+      console.log("delete blog error", error);
+    })
   }
 
   handleSuccessfulNewBlogSubmission(blog){
@@ -87,7 +103,19 @@ export default class Blog extends Component {
 
   render() {
     const blogRecords = this.state.blogItems.map(blogItem=>{
-      return <BlogItem key={blogItem.id} blogItem= {blogItem}/>
+      if (this.props.loggedInStatus === "LOGGED_IN") {
+        return (
+          /* se pone el key en el div en vez del BlogItem para envovler tambien a Delete */
+          <div key={blogItem.id} className='admin-blog-wrapper'>
+            <BlogItem blogItem= {blogItem}/>
+            {/* se una una funcion anonima ()=> para que no se ejecute al momento de cargar */}
+            <a onClick={() => this.handleDeleteClick(blogItem)}><FontAwesomeIcon icon='trash'/></a>
+          </div>
+        )
+      } else {
+        return <BlogItem key={blogItem.id} blogItem= {blogItem}/>
+      }
+
     });
 
     /* aqui no se usa this.blogRecords porque estamos poniendolo dentro de Render, si fuera afuera si tendriamos que hacerlo */

@@ -3,6 +3,7 @@
   grid-template-columns: 1fr;
   grid-gap: 21px;
   padding: 42px;
+  padding-left: 38px;
 
   @include input-element();
 
@@ -10,4 +11,9 @@
     margin-bottom: 0px;
   }
 
+}
+
+.image-uploaders{
+  @include base-grid();
+  grid-template-columns: 200px;
 }

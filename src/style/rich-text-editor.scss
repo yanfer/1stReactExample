@@ -1,0 +1,24 @@
+.DraftEditor-root {
+  border: 1px solid #d1d1d1 ;
+  padding: 1px 15px 15px 15px;
+  border-radius: 3px;
+  width: 60vw;
+  min-height: 250px;
+}
+
+.rdw-editor-toolbar{
+  border: 1px solid hsl(0, 0%, 82%);
+  border-radius: 3px;
+  width: 707px;
+}
+
+.rdw-image-modal{
+  left: -215px;
+}
+
+.rdw-emoji-modal{
+  left: -175px;
+}
+.rdw-embedded-modal{
+  left: -130px;
+}

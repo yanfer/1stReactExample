@@ -1,7 +1,7 @@
 {
   "name": "react-redux-router",
   "version": "1.0.0",
-  "engines":{
+  "engines": {
     "node": "14.17.3"
   },
   "description": "Basic skeleton codebase for React/Redux/Router applications.",
@@ -64,6 +64,7 @@
     "html-loader": "^0.5.5",
     "html-to-draftjs": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
+    "immutable": "^4.1.0",
     "moment": "^2.29.1",
     "node-sass": "^4.13.1",
     "npm-check-updates": "^12.4.0",
